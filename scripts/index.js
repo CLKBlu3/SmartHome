@@ -16,7 +16,7 @@ const setupData = (data) =>{
 					li =`
 						<li>
 							<div class="collapsible-header grey lighten-4">${casa.data().cid}</div>
-							<div class="collapsible-body white">${data}</div>
+							<div class="collapsible-body white">Admin: ${data}</div>
 						</li>
 					`;
 					homeList.innerHTML += li;
