@@ -1,4 +1,20 @@
+
+
 //auth --> contains firebase data
+
+//State changes listener
+auth.onAuthStateChanged(user => {
+	if(user){ //user logged in // did log in
+		console.log('user logged in: ' + user+ " user uid: " + user.uid);
+		database.collection("users").where('uid', '==', user.uid).get().then(snapshot =>{
+			//console.log(snapshot.docs);
+			setupData(snapshot.docs);
+		});
+	}else{
+		//user not logged in //did log out
+		console.log('user logged out');
+	}
+});
 
 //SIGN-UP
 const signupForm = document.querySelector('#signup-Form');
@@ -45,4 +61,4 @@ loginForm.addEventListener('submit', (e) => {
 		M.Modal.getInstance(modal).close();
 		loginForm.reset(); //Clear form
 	});
-})
+});
