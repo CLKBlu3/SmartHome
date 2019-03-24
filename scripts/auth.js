@@ -14,10 +14,7 @@ auth.onAuthStateChanged(user => {
 		}).catch(function(error){
 			console.log(error);
 		});
-		/*database.collection("users").where('uid', '==', user.uid).get().then(snapshot =>{
-			//console.log(snapshot.docs);
-			setupData(snapshot.docs);
-		});*/
+
 	}else{
 		//user not logged in //did log out
 		console.log('user logged out');
