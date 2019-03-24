@@ -5,18 +5,21 @@
 //State changes listener
 auth.onAuthStateChanged(user => {
 	if(user){ //user logged in // did log in
-		console.log('user logged in: ' + user+ " user uid: " + user.uid);
+		//console.log('user logged in: ' + user+ " user uid: " + user.uid);
+		console.log(user);
 		let userData = functions.httpsCallable('getInfoUser');
 		userData().then(function(res){
-			console.log("res: ");
-			console.log(res.data);
+			//console.log("res: ");
+			//console.log(res.data);
 			setupData(res.data);
+			fillAccounDetails(res.data, user);
 		}).catch(function(error){
 			console.log(error);
 		});
-
+		hideOrShowElementsByClass('logged-out', 'logged-in');
 	}else{
 		//user not logged in //did log out
+		clearData();
 		console.log('user logged out');
 	}
 });
@@ -29,14 +32,15 @@ signupForm.addEventListener('submit', (e) =>{
 	//set User info
 	const email = signupForm['signup-email'].value;
 	const pwd = signupForm['signup-password'].value;
+	const username = signupForm['signup-name'].value;
 
 	//console.log(email, pwd);
 	//Signup with credentials
-	auth.createUserWithEmailAndPassword(email, pwd).then(credentials => {
-		//console.log(credentials);
+	let register = functions.httpsCallable('addNewUser');
+	register({name: username, mail: email, password: pwd}).then(creds =>{
 		const modal = document.querySelector('#modal-signup');
 		M.Modal.getInstance(modal).close();
-		signupForm.reset(); //Clear form
+		signupForm.reset();
 	});
 
 });
