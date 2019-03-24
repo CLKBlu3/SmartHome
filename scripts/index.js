@@ -1,32 +1,27 @@
 const homeList = document.querySelector('.data');
 
 const setupData = (data) =>{
-	data.forEach(doc =>{
-		const home = doc.data().Cases;
-		console.log(home.length);
-		var li = ``;
-		var i;
-		for(i = 0; i < home.length; ++i){
-			database.collection('cases').where('cid', '==', home[i])
-			.get()
-			.then(function(casaQuery) {
-				casaQuery.forEach(casa =>{
-					var data = casa.data().admin;
-					console.log(data);
-					li =`
-						<li>
-							<div class="collapsible-header grey lighten-4">${casa.data().cid}</div>
-							<div class="collapsible-body white">Admin: ${data}</div>
-						</li>
-					`;
-					homeList.innerHTML += li;
-				})
-			});
-		}	
-
-	});
-	//homeList.innerHTML = html;
+	var i;
+	var li= ``;
+	let homeData = functions.httpsCallable('getInfoHome');
+	for(i = 0; i < data.Cases.length; ++i){
+		console.log(data.Cases[i]);
+		homeData({id: data.Cases[i]}).then(function(dHome){
+			console.log(dHome);
+			li = `
+				<li>
+					<div class="collapsible-header grey lighten-4">${dHome.data.cid}</div>
+					<div class="collapsible-body white"><b>Admin: </b>${dHome.data.admin} </div>
+					<div class="collapsible-body white"><b>Users: </b>${dHome.data.users} </div>
+					<div class="collapsible-body white"><b>Actuadors: </b>${dHome.data.actuadors} </div>
+					<div class="collapsible-body white"><b>Sensors: </b>${dHome.data.sensors} </div>
+				</li>
+			`;
+			homeList.innerHTML += li;
+		});
+	}
 };
+
 // setup materialize components
 document.addEventListener('DOMContentLoaded', function() {
 

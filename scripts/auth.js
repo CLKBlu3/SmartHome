@@ -6,10 +6,18 @@
 auth.onAuthStateChanged(user => {
 	if(user){ //user logged in // did log in
 		console.log('user logged in: ' + user+ " user uid: " + user.uid);
-		database.collection("users").where('uid', '==', user.uid).get().then(snapshot =>{
+		let userData = functions.httpsCallable('getInfoUser');
+		userData().then(function(res){
+			console.log("res: ");
+			console.log(res.data);
+			setupData(res.data);
+		}).catch(function(error){
+			console.log(error);
+		});
+		/*database.collection("users").where('uid', '==', user.uid).get().then(snapshot =>{
 			//console.log(snapshot.docs);
 			setupData(snapshot.docs);
-		});
+		});*/
 	}else{
 		//user not logged in //did log out
 		console.log('user logged out');
