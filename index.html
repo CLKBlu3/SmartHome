@@ -8,6 +8,7 @@
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <title>Smart Home</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body class="grey lighten-3">
 
@@ -70,7 +71,7 @@
           <input type="password" id="login-password" required />
           <label for="login-password">Enter password</label>
         </div>
-        <button class="btn yellow darken-2 z-depth-0">Login</button>
+        <button class="btn yellow darken-2 z-depth-0" id="login-submit">Login</button>
       </form>
 	  <div id="firebaseui-auth-container">
 	  </div>
@@ -82,7 +83,7 @@
     <div class="modal-content center-align">
       <h4>Account details</h4><br />
       <div class="account-details">
-        <ul class="collapsible z-depth-0 accInfo" style="border: none;">
+        <ul class="collapsible z-depth-0 accinfo" style="border: none;">
         </ul>
       </div>
     </div>

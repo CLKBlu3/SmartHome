@@ -6,17 +6,17 @@
 auth.onAuthStateChanged(user => {
 	if(user){ //user logged in // did log in
 		//console.log('user logged in: ' + user+ " user uid: " + user.uid);
-		console.log(user);
+		//console.log(user);
 		let userData = functions.httpsCallable('getInfoUser');
 		userData().then(function(res){
 			//console.log("res: ");
 			//console.log(res.data);
 			setupData(res.data);
-			fillAccounDetails(res.data, user);
+			fillAccountDetails(res.data, user);
 		}).catch(function(error){
 			console.log(error);
 		});
-		hideOrShowElementsByClass('logged-out', 'logged-in');
+		hideOrShowElementsByClass('.logged-out', '.logged-in');
 	}else{
 		//user not logged in //did log out
 		clearData();
@@ -37,9 +37,10 @@ signupForm.addEventListener('submit', (e) =>{
 	//console.log(email, pwd);
 	//Signup with credentials
 	let register = functions.httpsCallable('addNewUser');
-	register({name: username, mail: email, password: pwd}).then(creds =>{
+	register({name: username, mail: email, password: pwd}).then(() =>{
 		const modal = document.querySelector('#modal-signup');
 		M.Modal.getInstance(modal).close();
+		auth.signInWithEmailAndPassword(email, pwd);
 		signupForm.reset();
 	});
 
