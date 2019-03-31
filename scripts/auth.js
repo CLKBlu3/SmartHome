@@ -8,15 +8,12 @@ let addHomeFunc = functions.httpsCallable('registerUserToHouse');
 //State changes listener
 auth.onAuthStateChanged(user => {
 	if(user){ //user logged in // did log in
-		//console.log('user logged in: ' + user+ " user uid: " + user.uid);
-		//console.log(user);
 		userData().then(function(res){
-			//console.log("res: ");
-			//console.log(res.data);
 			setupData(res.data);
 			fillAccountDetails(res.data, user);
 		}).catch(function(error){
 			console.log(error);
+			$('#modal-error').show();
 		});
 		hideOrShowElementsByClass('.logged-out', '.logged-in');
 	}else{
@@ -38,10 +35,14 @@ signupForm.addEventListener('submit', (e) =>{
 
 	//Signup with credentials
 	register({name: username, mail: email, password: pwd}).then(() =>{
-		const modal = document.querySelector('#modal-signup');
-		M.Modal.getInstance(modal).close();
+		$('#modal-signup').hide();
 		auth.signInWithEmailAndPassword(email, pwd);
 		signupForm.reset();
+	}).catch(function (error) {
+		console.log(error);
+		$('#modal-signup').hide();
+		signupForm.reset();
+		$('#modal-error').show();
 	});
 
 });
@@ -67,9 +68,13 @@ loginForm.addEventListener('submit', (e) => {
 	auth.signInWithEmailAndPassword(email, pwd).then(creds => {
 		console.log(creds);
 		//Close and reset modal
-		const modal = document.querySelector('#modal-login');
-		M.Modal.getInstance(modal).close();
+		$('#modal-login').hide();
 		loginForm.reset(); //Clear form
+	}).catch(function (error) {
+		console.log(error);
+		$('#modal-login').hide();
+		loginForm.reset();
+		$('#modal-error').show();
 	});
 });
 
@@ -87,7 +92,7 @@ addUserToHome.addEventListener('submit', (e) => {
 		}).catch(function(error){
 			$('#modal-addhome').hide();
 			addUserToHome.reset();
-			//TODO: Afegir modal amb display d'errors!
+			$('#modal-error').show();
 			console.log(error);
 		});
 	});
