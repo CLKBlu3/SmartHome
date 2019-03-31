@@ -78,13 +78,18 @@ loginForm.addEventListener('submit', (e) => {
 const addUserToHome = document.querySelector('#addhome-form');
 addUserToHome.addEventListener('submit', (e) => {
 	e.preventDefault();
-	const homeId = addUserToHome['home-identifier'].value;
+	var homeId = addUserToHome['home-identifier'].value;
 	userData().then(res => {
 		const userId = res.data.uid;
 		addHomeFunc({houseid: homeId, userid: userId}).then( () =>{
-			const modal = document.querySelector('modal-addhome');
-			M.Modal.getInstance(modal).close();
+			$('#modal-addhome').hide();
 			addUserToHome.reset();
-		})
+			location.reload();
+		}).catch(function(error){
+			$('#modal-addhome').hide();
+			addUserToHome.reset();
+			//TODO: Afegir modal amb display d'errors!
+			console.log(error);
+		});
 	});
 });

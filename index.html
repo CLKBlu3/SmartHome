@@ -81,7 +81,7 @@
   <!-- ACCOUNT MODAL -->
   <div id="modal-account" class="modal fade">
     <div class="modal-content center-align">
-      <h4>Account details</h4><br />
+      <h4>Account details</h4><br/>
       <div class="account-details">
         <ul class="collapsible z-depth-0 accinfo" style="border: none;">
         </ul>
@@ -98,13 +98,14 @@
   <!-- ADD HOME MODAL -->
   <div id="modal-addhome" class="modal fade">
     <div class="modal-content">
-      <h4>Add a New Home</h4><br />
+      <h4>Add a New Home</h4><br/>
       <form id="addhome-form">
         <div class="input-field">
           <input type="text" id="home-identifier" required />
           <label for="signup-email">Home Identifier</label>
         </div>
         <button class="btn yellow darken-2 z-depth-0" id="addhome-submit">Register to Home</button>
+        <button type="button" class="btn btn-default" style="float: right" data-dismiss="modal-addHome" onclick="$('#modal-addhome').hide()">Exit</button>
       </form>
     </div>
   </div>

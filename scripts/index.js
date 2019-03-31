@@ -4,36 +4,39 @@ const setupData = (data) =>{
 	var i;
 	var li= ``;
 	let homeData = functions.httpsCallable('getInfoHome');
+	var button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').toggle()">Add new Home</button>`;
 	homeList.html(li);
-	for(i = 0; i < data.Cases.length; ++i){
-		//console.log(data.Cases[i]);
-		homeData(data.Cases[i]).then(function(dHome){
-			console.log(dHome);
-			li += `<li>`
-			li += `<div class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
-            li += `<div class=\"collapsible-body white\"><b>Admin: </b>${dHome.data.admin} </div>`;
-            if(dHome.data.admin === data.uid){
-                data = dHome.data;
-                li += `<div class='collapsible-body white'> `+
-                    `<div class='left-element'> <b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
-                    + `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(data)"> X </button> </p></div></div>`;
-            }
-			else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
-			li += `<div class=\"collapsible-body white\"><b>Users: </b>${dHome.data.users} </div>`;
-			li += `<div class=\"collapsible-body white\"><b>IP: </b>${dHome.data.ip} </div>`;
-			li += `</li>`;
-			//console.log(li);
-            homeList.append(li)//.append(`<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" data-target="#modal-addhome">Add new Home</button>`);
-		});
+	if(data.Cases.length == 0){
+		homeList.html(li).append(button);
 	}
-	let button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
-	homeList.append(button);
+	else {
+		for(i = 0; i < data.Cases.length; ++i){
+			//console.log(data.Cases[i]);
+			homeData(data.Cases[i]).then(function(dHome){
+				//console.log(dHome.data.users[0]);
+				li += `<li>`
+				li += `<div class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
+				li += `<div class=\"collapsible-body white\"><b>Admin: </b>${dHome.data.admin} </div>`;
+				if(dHome.data.admin === data.uid){
+					var userArray = dHome.data.users;
+					li += `<div class='collapsible-body white'> `+
+						`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
+						+ `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(userArray)"> X </button> </p></div>`;
+				}
+				else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
+				li += `<div class=\"collapsible-body white\"><b>Users: </b>${dHome.data.users} </div>`;
+				li += `<div class=\"collapsible-body white\"><b>IP: </b>${dHome.data.ip} </div>`;
+				li += `</li>`;
+				homeList.html(li).append(button);
+			});
+		}
+	}
 };
 
-const deleteUsers = (homeData) =>{
+const deleteUsers = (userArray) =>{
     var i;
-    console.log(homeData);
-    for(i = 0; i < homeData.users.length; ++i){
+    console.log(userArray);
+    for(i = 0; i < userArray.length; ++i){
         //afegirlos a una llista en un "popup" per seleccionar quins vols eliminar amb un checkbox?
     }
 }
