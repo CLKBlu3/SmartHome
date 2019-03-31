@@ -58,12 +58,11 @@ const hideOrShowElementsByClass = (hideClass, showClass) =>{
 
 const accInfo = $('.accinfo');
 const fillAccountDetails = (userData, user) => {
-	//console.log(userData);
 	var li;
 	li = `
 		<li>
-			<div class="collapsible-header grey lighten-4">${userData.Name}</div>
-			<div class="collapsible-body white"><b>Name: </b>${userData.Name} </div>
+			<div class="collapsible-header grey lighten-4">${user.displayName}</div>
+			<div class="collapsible-body white"><b>Name: </b>${user.displayName} </div>
 			<div class="collapsible-body white"><b>Email: </b>${user.email} </div>
 			<div class="collapsible-body white"><b>Number of Homes: </b>${userData.Cases.length} </div>
 		</li>

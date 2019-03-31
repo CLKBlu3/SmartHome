@@ -36,7 +36,6 @@ signupForm.addEventListener('submit', (e) =>{
 	const pwd = signupForm['signup-password'].value;
 	const username = signupForm['signup-name'].value;
 
-	//console.log(email, pwd);
 	//Signup with credentials
 	register({name: username, mail: email, password: pwd}).then(() =>{
 		const modal = document.querySelector('#modal-signup');
