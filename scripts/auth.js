@@ -35,12 +35,15 @@ signupForm.addEventListener('submit', (e) =>{
 
 	//Signup with credentials
 	register({name: username, mail: email, password: pwd}).then(() =>{
-		$('#modal-signup').hide();
+		const modal = document.querySelector('#modal-signup');
+		M.Modal.getInstance(modal).close();
 		auth.signInWithEmailAndPassword(email, pwd);
 		signupForm.reset();
 	}).catch(function (error) {
 		console.log(error);
-		$('#modal-signup').hide();
+		//$('#modal-signup').toggle();
+		const modal = document.querySelector('#modal-signup');
+		M.Modal.getInstance(modal).close();
 		signupForm.reset();
 		$('#modal-error').show();
 	});
@@ -68,11 +71,13 @@ loginForm.addEventListener('submit', (e) => {
 	auth.signInWithEmailAndPassword(email, pwd).then(creds => {
 		console.log(creds);
 		//Close and reset modal
-		$('#modal-login').hide();
+		const modal = document.querySelector('#modal-login');
+		M.Modal.getInstance(modal).close();
 		loginForm.reset(); //Clear form
 	}).catch(function (error) {
 		console.log(error);
-		$('#modal-login').hide();
+		const modal = document.querySelector('#modal-login');
+		M.Modal.getInstance(modal).close();
 		loginForm.reset();
 		$('#modal-error').show();
 	});
@@ -86,11 +91,11 @@ addUserToHome.addEventListener('submit', (e) => {
 	userData().then(res => {
 		const userId = res.data.uid;
 		addHomeFunc({houseid: homeId, userid: userId}).then( () =>{
-			$('#modal-addhome').hide();
+			$('#modal-addhome').toggle();
 			addUserToHome.reset();
 			location.reload();
 		}).catch(function(error){
-			$('#modal-addhome').hide();
+			$('#modal-addhome').toggle();
 			addUserToHome.reset();
 			$('#modal-error').show();
 			console.log(error);

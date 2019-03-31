@@ -52,7 +52,7 @@ const clearData = ()=>{
 
 //PAR 1: classe a amagar, PAR2: classe a mostrar
 const hideOrShowElementsByClass = (hideClass, showClass) =>{
-	$(hideClass).hide();
+	$(hideClass).toggle();
 	$(showClass).show();
 }
 
