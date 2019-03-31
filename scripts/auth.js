@@ -35,14 +35,14 @@ signupForm.addEventListener('submit', (e) =>{
 
 	//Signup with credentials
 	register({name: username, mail: email, password: pwd}).then(() =>{
-		const modal = document.querySelector('#modal-signup');
+		const modal = $('#modal-signup');
 		M.Modal.getInstance(modal).close();
 		auth.signInWithEmailAndPassword(email, pwd);
 		signupForm.reset();
 	}).catch(function (error) {
 		console.log(error);
 		//$('#modal-signup').toggle();
-		const modal = document.querySelector('#modal-signup');
+		const modal = $('#modal-signup');
 		M.Modal.getInstance(modal).close();
 		signupForm.reset();
 		$('#modal-error').show();
@@ -71,7 +71,7 @@ loginForm.addEventListener('submit', (e) => {
 	auth.signInWithEmailAndPassword(email, pwd).then(creds => {
 		console.log(creds);
 		//Close and reset modal
-		const modal = document.querySelector('#modal-login');
+		const modal = $('#modal-login');
 		M.Modal.getInstance(modal).close();
 		loginForm.reset(); //Clear form
 	}).catch(function (error) {
