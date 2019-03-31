@@ -1,5 +1,8 @@
 
 
+let userData = functions.httpsCallable('getInfoUser');
+let register = functions.httpsCallable('addNewUser');
+let addHomeFunc = functions.httpsCallable('registerUserToHouse');
 //auth --> contains firebase data
 
 //State changes listener
@@ -7,7 +10,6 @@ auth.onAuthStateChanged(user => {
 	if(user){ //user logged in // did log in
 		//console.log('user logged in: ' + user+ " user uid: " + user.uid);
 		//console.log(user);
-		let userData = functions.httpsCallable('getInfoUser');
 		userData().then(function(res){
 			//console.log("res: ");
 			//console.log(res.data);
@@ -36,7 +38,6 @@ signupForm.addEventListener('submit', (e) =>{
 
 	//console.log(email, pwd);
 	//Signup with credentials
-	let register = functions.httpsCallable('addNewUser');
 	register({name: username, mail: email, password: pwd}).then(() =>{
 		const modal = document.querySelector('#modal-signup');
 		M.Modal.getInstance(modal).close();
@@ -70,5 +71,20 @@ loginForm.addEventListener('submit', (e) => {
 		const modal = document.querySelector('#modal-login');
 		M.Modal.getInstance(modal).close();
 		loginForm.reset(); //Clear form
+	});
+});
+
+//ADD USER TO NEW HOME
+const addUserToHome = document.querySelector('#addhome-form');
+addUserToHome.addEventListener('submit', (e) => {
+	e.preventDefault();
+	const homeId = addUserToHome['home-identifier'].value;
+	userData().then(res => {
+		const userId = res.data.uid;
+		addHomeFunc({houseid: homeId, userid: userId}).then( () =>{
+			const modal = document.querySelector('modal-addhome');
+			M.Modal.getInstance(modal).close();
+			addUserToHome.reset();
+		})
 	});
 });
