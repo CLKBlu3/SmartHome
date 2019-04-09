@@ -9,14 +9,16 @@ const setupData = (data) =>{
 		//console.log(data.Cases[i]);
 		homeData(data.Cases[i]).then(function(dHome){
 			console.log(dHome);
-			li += `<li>`
+			li += `<li>`;
 			li += `<div class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
             li += `<div class=\"collapsible-body white\"><b>Admin: </b>${dHome.data.admin} </div>`;
             if(dHome.data.admin === data.uid){
                 data = dHome.data;
-                li += `<div class='collapsible-body white'> `+
-                    `<div class='left-element'> <b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
-                    + `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(data)"> X </button> </p></div></div>`;
+                li += `<div class='collapsible-body white'><b>Users </b><br><ul id="userslist">`;
+				dHome.data.users.forEach(function(user){
+					li += `<li id="${user}">${user}<button class="btn red darken-2 z-depth-0">Delete</button></li>`
+				});
+				li += `</ul></div>`
             }
 			else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
 			li += `<div class=\"collapsible-body white\"><b>Users: </b>${dHome.data.users} </div>`;
@@ -30,13 +32,9 @@ const setupData = (data) =>{
 	homeList.append(button);
 };
 
-const deleteUsers = (homeData) =>{
-    var i;
-    console.log(homeData);
-    for(i = 0; i < homeData.users.length; ++i){
-        //afegirlos a una llista en un "popup" per seleccionar quins vols eliminar amb un checkbox?
-    }
-}
+const deleteUser = (useruid) =>{
+
+};
 
 const clearData = ()=>{
 	var li = `
@@ -77,4 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var items = $('.collapsible');
   M.Collapsible.init(items);
 
+});
+
+//jquery functions
+$(document).on('click', '#userslist li button', function(){
+//^             ^        ^ --- the selector to filter against
+//|             +--- the event to hook
+//+--- the element to hook it on
+    console.log($(this));
 });
