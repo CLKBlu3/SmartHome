@@ -17,7 +17,7 @@ const setupData = (data) => {
                 data = dHome.data;
                 li += `<div class='collapsible-body white'><b>Users </b><br><ul id="userslist"></ul>`;
                 li += `<form id='addUserForm' class='row'>
-							<input type='text' class='form-control col s7' placeholder='User email'/><button type='submit' class='btn yellow darken-2' style="margin-left: 10px;">Add user</button>
+							<input type='text' name='uid' class='form-control col s7' placeholder='User email'/><button type='submit' class='btn yellow darken-2' style="margin-left: 10px;">Add user</button>
 						</form>
 						</div>`
             } else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
@@ -37,7 +37,6 @@ const setupData = (data) => {
     let button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
     homeList.append(button);
 };
-
 
 const deleteUser = (useruid) =>{
 
@@ -90,6 +89,7 @@ $(document).on('click', '#userslist li button', function(){
 	var id = itemToDelete.parent().attr('id');
     var houseid;
     if(confirm('Segur que vols eliminar el usuari?')){
+    	console.log('eliminando..');
     	let deleteUserFunction = functions.httpsCallable('deleteUserFromHouse');
     	//get info house
     	var homecid = itemToDelete.parents('.active').children('.homeinfo').attr('id');
@@ -106,3 +106,19 @@ function uidToUser(uid){
     let uidToUserFunction = functions.httpsCallable('uidToUser');
     return uidToUserFunction(uid);
 }
+
+$(document).on('submit', '#addUserForm', function(event) {
+	let form = $(this);
+	event.preventDefault();
+	let data = form.serializeArray();
+	let uid = data[0]['value'];
+	let cid = form.parents('.active').children('.homeinfo').attr('id');
+	let registerUserFunct = functions.httpsCallable('registerUserToHouse');
+	registerUserFunct({houseid: cid , userid: uid }).then(function(){
+		$('#userslist').append(`<li id="${uid}">${uid}<button class="btn red darken-2 z-depth-0">Delete</button></li>`)
+		form.find('input').val(''); //reset fields
+	}).catch(function(err){
+		alert(err.message);
+	});
+});
+
