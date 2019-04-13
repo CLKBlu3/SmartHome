@@ -111,11 +111,11 @@ $(document).on('submit', '#addUserForm', function(event) {
 	let form = $(this);
 	event.preventDefault();
 	let data = form.serializeArray();
-	let uid = data[0]['value'];
+	let email = data[0]['value'];
 	let cid = form.parents('.active').children('.homeinfo').attr('id');
-	let registerUserFunct = functions.httpsCallable('registerUserToHouse');
-	registerUserFunct({houseid: cid , userid: uid }).then(function(){
-		$('#userslist').append(`<li id="${uid}">${uid}<button class="btn red darken-2 z-depth-0">Delete</button></li>`)
+	let registerUserFunct = functions.httpsCallable('registerUserToHouseFromEmail');
+	registerUserFunct({houseid: cid , email: email}).then(function(res){
+		$('#userslist').append(`<li id="${res.data.uid}">${res.data.name}<button class="btn red darken-2 z-depth-0">Delete</button></li>`)
 		form.find('input').val(''); //reset fields
 	}).catch(function(err){
 		alert(err.message);
