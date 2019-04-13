@@ -20,7 +20,7 @@ const setupData = (data) =>{
 				});
 				li += `</ul>
 						<form id='addUserForm' class='row'>
-							<input type='text' class='form-control col s7' placeholder='user uid'></input><button type='submit' class='btn yellow darken-2' style="margin-left: 10px;">Add user</button>
+							<input type='text' name='uid' class='form-control col s7' placeholder='User uid'/><button type='submit' class='btn yellow darken-2' style="margin-left: 10px;">Add user</button>
 						</form>
 						</div>`
             }
@@ -98,3 +98,19 @@ $(document).on('click', '#userslist li button', function(){
     	});
     }
 });
+
+$(document).on('submit', '#addUserForm', function(event) {
+	let form = $(this);
+	event.preventDefault();
+	let data = form.serializeArray();
+	let uid = data[0]['value'];
+	let cid = form.parents('.active').children('.homeinfo').attr('id');
+	let registerUserFunct = functions.httpsCallable('registerUserToHouse');
+	registerUserFunct({houseid: cid , userid: uid }).then(function(){
+		$('#userslist').append(`<li id="${uid}">${uid}<button class="btn red darken-2 z-depth-0">Delete</button></li>`)
+		form.find('input').val(''); //reset fields
+	}).catch(function(err){
+		alert(err.message);
+	});
+});
+
