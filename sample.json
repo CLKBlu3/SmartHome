@@ -1,0 +1,18 @@
+{
+	"users":{
+		"sampleUser":{
+			"uid":"uid",
+			"cases":["casaID1", "casaID2"],
+			"admin":["casaID1"]
+		}
+	},
+	"cases":{
+		"sampleHome":{
+			"cid":"cid",
+			"admin":"uidAdmin",
+			"sensors":["sensor1", "sensor2"],
+			"actuadors":["act1","act2","act3"],
+			"users":["uid", "uid2", "uid3"]
+		}
+	}
+}
