@@ -19,8 +19,6 @@ const setupData = (data) =>{
 					li += `<div class=\"collapsible-body white\"><b>Admin: </b>${admin.displayName} </div>`;
 					if(dHome.data.admin === data.uid){
 						var userArray = dHome.data.users;
-						//console.log(userArray[0])
-						//console.log(userArray.length)
 						li += `<div class='collapsible-body white'>` +
 							`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
 							+ `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(${userArray})"> X </button> </p></div>`;
