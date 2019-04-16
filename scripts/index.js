@@ -1,9 +1,10 @@
 const homeList = $('.data'); //DIV with the list of elements of the Homes
+let uidToUser = functions.httpsCallable('uidToUser');
+let homeData = functions.httpsCallable('getInfoHome');
 
 const setupData = (data) =>{
 	var i;
 	var li= ``;
-	let homeData = functions.httpsCallable('getInfoHome');
 	var button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').toggle()">Add new Home</button>`;
 	homeList.html(li);
 	if(data.Cases.length == 0){
@@ -11,20 +12,30 @@ const setupData = (data) =>{
 	}
 	else {
 		for(i = 0; i < data.Cases.length; ++i){
-			//console.log(data.Cases[i]);
 			homeData(data.Cases[i]).then(function(dHome){
-				//console.log(dHome.data.users[0]);
 				li += `<li>`
 				li += `<div class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
-				li += `<div class=\"collapsible-body white\"><b>Admin: </b>${dHome.data.admin} </div>`;
-				if(dHome.data.admin === data.uid){
-					var userArray = dHome.data.users;
-					li += `<div class='collapsible-body white'> `+
-						`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
-						+ `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(userArray)"> X </button> </p></div>`;
+				uidToUser(dHome.data.admin).then(function(admin){
+					li += `<div class=\"collapsible-body white\"><b>Admin: </b>${admin.displayName} </div>`;
+					if(dHome.data.admin === data.uid){
+						var userArray = dHome.data.users;
+						//console.log(userArray[0])
+						//console.log(userArray.length)
+						li += `<div class='collapsible-body white'>` +
+							`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
+							+ `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(${userArray})"> X </button> </p></div>`;
+					}
+					else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
+				});
+				var j;
+				var users = `<ul>`;
+				for(j = 0; j < dHome.data.users.length; ++j){
+					uidToUser(dHome.data.users[j]).then(function(userName){
+						users += `<div class=\"collapsible-body white\"><b>Username: </b> ${userName.displayName} </div>`;
+					});
 				}
-				else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
-				li += `<div class=\"collapsible-body white\"><b>Users: </b>${dHome.data.users} </div>`;
+				users += `</ul>`;
+				li += users;
 				li += `<div class=\"collapsible-body white\"><b>IP: </b>${dHome.data.ip} </div>`;
 				li += `</li>`;
 				homeList.html(li).append(button);
@@ -33,11 +44,11 @@ const setupData = (data) =>{
 	}
 };
 
-const deleteUsers = (userArray) =>{
+let deleteUsers = function(userArray){
     var i;
-    console.log(userArray);
-    for(i = 0; i < userArray.length; ++i){
-        //afegirlos a una llista en un "popup" per seleccionar quins vols eliminar amb un checkbox?
+    console.log(userArray.users);
+    for(i = 0; i < userArray.users.length; ++i){
+        console.log(userArray[i]);
     }
 }
 
