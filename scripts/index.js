@@ -39,11 +39,11 @@ const setupData = (data) =>{
 				/* Load users */
 				dHome.data.users.forEach(function (userUid) {
 					uidToUser(userUid).then(function (user) {
-						$(houseItem).find('ul').append(`<li id="${userUid}">${user.data.displayName}<button class="btn red darken-1" style="float: right; margin-top: -10px">Delete</button></li>`);
+						$(houseItem).find('ul').append(`<li style="margin-top: 10px" id="${userUid}">${user.data.displayName}<button class="btn red darken-1" style="float: right; margin-top: -10px">Delete</button></li>`);
 					});
 				});
 
-				let button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
+				let button = `<button class="btn yellow darken-2" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
 				homeList.append(button);
 				//homeList.html(li).append(button);
 			});
@@ -51,17 +51,24 @@ const setupData = (data) =>{
 	}
 };
 
-const deleteUser = (useruid) =>{
-
-};
-
-let deleteUsers = function(userArray){
-    var i;
-    console.log(userArray.users);
-    for(i = 0; i < userArray.users.length; ++i){
-        console.log(userArray[i]);
+//jquery functions
+$(document).on('click', '#userslist li button', function(){
+    var itemToDelete = $(this);
+    var id = itemToDelete.parent().attr('id');
+    var houseid;
+    if(confirm('Segur que vols eliminar el usuari?')){
+        console.log('eliminando..');
+        let deleteUserFunction = functions.httpsCallable('deleteUserFromHouse');
+        //get info house
+        var homecid = itemToDelete.parents('.active').children('.homeinfo').attr('id');
+        deleteUserFunction({houseid: homecid,userid: id}).then(function(){
+            //delete row
+            itemToDelete.parent().remove();
+        }).catch(function(error){
+            alert("no es pot eliminar l'usuari");
+        });
     }
-}
+});
 
 const clearData = ()=>{
 	var li = `
