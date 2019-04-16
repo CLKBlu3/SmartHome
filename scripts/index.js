@@ -12,36 +12,47 @@ const setupData = (data) =>{
 	}
 	else {
 		for(i = 0; i < data.Cases.length; ++i){
-			homeData(data.Cases[i]).then(function(dHome){
+			homeData(data.Cases[i]).then(async function (dHome) {
 				li += `<li>`
-				li += `<div class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
-				uidToUser(dHome.data.admin).then(function(admin){
-					li += `<div class=\"collapsible-body white\"><b>Admin: </b>${admin.displayName} </div>`;
-					if(dHome.data.admin === data.uid){
-						var userArray = dHome.data.users;
-						//console.log(userArray[0])
-						//console.log(userArray.length)
-						li += `<div class='collapsible-body white'>` +
-							`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\">`
-							+ `<button class=\"btn yellow darken-2 z-depth-0\" onclick="deleteUsers(${userArray})"> X </button> </p></div>`;
-					}
-					else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
-				});
-				var j;
-				var users = `<ul>`;
-				for(j = 0; j < dHome.data.users.length; ++j){
-					uidToUser(dHome.data.users[j]).then(function(userName){
-						users += `<div class=\"collapsible-body white\"><b>Username: </b> ${userName.displayName} </div>`;
-					});
+				li += `<div id=${dHome.data.cid} class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
+
+				let admin = await uidToUser(dHome.data.admin);
+				li += `<div class=\"collapsible-body white\"><b>Admin: </b>${admin.data.displayName} </div>`;
+
+				if(dHome.data.admin === data.uid){
+					li += `<div class='collapsible-body white'>` +
+						`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\"></p></div>`;
+
+					li += `<div class='collapsible-body white'><b>Users </b><br><ul id="userslist"></ul>`;
+					li += `<form id='addUserForm' class='row' style="margin-top: 25px">
+							<input type='text' name='uid' class='form-control col s7' placeholder='User email'/><button type='submit' class='btn yellow darken-2' style="float: right; ">Add user</button>
+						</form>
+						</div>`;
 				}
-				users += `</ul>`;
-				li += users;
-				li += `<div class=\"collapsible-body white\"><b>IP: </b>${dHome.data.ip} </div>`;
+				else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
+
+				li += `<div class=\"collapsible-body white\"><b>Public IP: </b>${dHome.data.ip} </div>`;
 				li += `</li>`;
-				homeList.html(li).append(button);
+				let houseItem = $(li);
+				homeList.append(houseItem);
+
+				/* Load users */
+				dHome.data.users.forEach(function (userUid) {
+					uidToUser(userUid).then(function (user) {
+						$(houseItem).find('ul').append(`<li id="${userUid}">${user.data.displayName}<button class="btn red darken-1" style="float: right; margin-top: -10px">Delete</button></li>`);
+					});
+				});
+
+				let button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
+				homeList.append(button);
+				//homeList.html(li).append(button);
 			});
 		}
 	}
+};
+
+const deleteUser = (useruid) =>{
+
 };
 
 let deleteUsers = function(userArray){
