@@ -55,7 +55,7 @@ const setupData = (data) =>{
 
 const redirectToHome = (cid) =>{
 	console.log(cid);
-	var x = JSON.stringify(cid);
+	var x = JSON.stringify($(cid).attr('id'));
 	$(location).attr("href", "homedata.html"+"?cid="+x);
 };
 
