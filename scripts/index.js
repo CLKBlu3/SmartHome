@@ -2,10 +2,11 @@ const homeList = $('.data'); //DIV with the list of elements of the Homes
 let uidToUser = functions.httpsCallable('uidToUser');
 let homeData = functions.httpsCallable('getInfoHome');
 
+
 const setupData = (data) =>{
 	var i;
 	var li= ``;
-	var button = `<button class="btn yellow darken-2 z-depth-0" data-toggle="modal" onClick="$('#modal-addhome').toggle()">Add new Home</button>`;
+	var button = `<button class="btn yellow darken-2" data-toggle="modal" onClick="$('#modal-addhome').toggle()">Add new Home</button>`;
 	homeList.html(li);
 	if(data.Cases.length == 0){
 		homeList.html(li).append(button);
@@ -13,7 +14,7 @@ const setupData = (data) =>{
 	else {
 		for(i = 0; i < data.Cases.length; ++i){
 			homeData(data.Cases[i]).then(async function (dHome) {
-				li += `<li>`
+				li += `<li>`;
 				li += `<div id=${dHome.data.cid} class=\"collapsible-header grey lighten-4\">${dHome.data.cid}</div>`;
 
 				let admin = await uidToUser(dHome.data.admin);
@@ -23,15 +24,17 @@ const setupData = (data) =>{
 					li += `<div class='collapsible-body white'>` +
 						`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\"></p></div>`;
 
-					li += `<div class='collapsible-body white'><b>Users </b><br><ul id="userslist"></ul>`;
+					li += `<div class='collapsible-body white'><b>Users: </b><br><ul id="userslist"></ul>`;
 					li += `<form id='addUserForm' class='row' style="margin-top: 25px">
 							<input type='text' name='uid' class='form-control col s7' placeholder='User email'/><button type='submit' class='btn yellow darken-2' style="float: right; ">Add user</button>
 						</form>
 						</div>`;
 				}
-				else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length} </div>`;
+				else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length}</div>`;
 
-				li += `<div class=\"collapsible-body white\"><b>Public IP: </b>${dHome.data.ip} </div>`;
+				li += `<div class=\"collapsible-body white\"><b>Public IP: </b>${dHome.data.ip}</div>`;
+
+				li += `<div	class=\"collapsible-body white\"><b>Monitor: </b><button class="btn yellow darken-2" data-toggle="modal" onClick="redirectToHome(${dHome.data.cid});" style="float: right;">Monitor</button> </div>`;
 				li += `</li>`;
 				let houseItem = $(li);
 				homeList.append(houseItem);
@@ -43,12 +46,17 @@ const setupData = (data) =>{
 					});
 				});
 
-				let button = `<button class="btn yellow darken-2" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
+				//let button = `<button class="btn yellow darken-2" data-toggle="modal" onClick="$('#modal-addhome').show()">Add new Home</button>`;
 				homeList.append(button);
-				//homeList.html(li).append(button);
 			});
 		}
 	}
+};
+
+const redirectToHome = (cid) =>{
+	console.log(cid);
+	var x = JSON.stringify(cid);
+	$(location).attr("href", "homedata.html"+"?cid="+x);
 };
 
 //jquery functions
@@ -77,12 +85,6 @@ const clearData = ()=>{
 	homeList.html(li);
 	//user logged out--> hide log out and show Login/sign up
 	hideOrShowElementsByClass('.logged-in', '.logged-out');
-}
-
-//PAR 1: classe a amagar, PAR2: classe a mostrar
-const hideOrShowElementsByClass = (hideClass, showClass) =>{
-	$(hideClass).toggle();
-	$(showClass).show();
 }
 
 const accInfo = $('.accinfo');

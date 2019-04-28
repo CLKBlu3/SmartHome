@@ -5,6 +5,13 @@ let register = functions.httpsCallable('addNewUser');
 let addHomeFunc = functions.httpsCallable('registerUserToHouse');
 //auth --> contains firebase data
 
+
+//PAR 1: classe a amagar, PAR2: classe a mostrar
+const hideOrShowElementsByClass = (hideClass, showClass) =>{
+	$(hideClass).toggle();
+	$(showClass).show();
+};
+
 //State changes listener
 auth.onAuthStateChanged(user => {
 	if(user){ //user logged in // did log in
@@ -56,6 +63,7 @@ logout.addEventListener('click', (e) => {
 	e.preventDefault(); //prevent auto refreshing
 	auth.signOut().then(() => {
 		console.log('user logged out');
+		$(location).attr("href", "index.html");
 	});
 
 });
