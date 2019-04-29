@@ -127,24 +127,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-functions.js"></script>
-  <script>
-    // Initialize Firebase project
-    var config = { //use security rules later to protect the project!!
-      apiKey: "AIzaSyDlOnhzfQbFGOf6lKQRGuPpqIVAqc4wUuY",
-      authDomain: "pti-iot.firebaseapp.com",
-      databaseURL: "https://pti-iot.firebaseio.com",
-      projectId: "pti-iot"
-      //No necessitem aquests de moment
-      //storageBucket: "pti-iot.appspot.com",
-      //messagingSenderId: "839726974850"
-    };
-    firebase.initializeApp(config);
-
-    //make auth and firestore references
-    const auth = firebase.auth();
-    const database = firebase.firestore();
-    const functions = firebase.functions();
-  </script>
+  <script src="scripts/configureFirebase.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="scripts/auth.js"></script>
