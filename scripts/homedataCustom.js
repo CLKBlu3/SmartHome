@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('.tabs').tabs();
+    $('select').formSelect();
     auth.onAuthStateChanged(function(user) {
         if (user) {
             checkUserHasAccess(user,getUrlVar('cid')).catch(function(error){
@@ -18,6 +19,14 @@ $(document).ready(function(){
 
 
 });
+
+function registerSensor(){
+
+}
+
+function registerActuador() {
+    
+}
 
 function getUrlVar(variable) {
     let query = window.location.search.substring(1);

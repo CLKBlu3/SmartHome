@@ -82,14 +82,16 @@
                         </div>
                         <div class="collapsible-body white">
                             <form id='addSensorForm' class='row' style="margin-top: 10px">
-                                <select name="SensorType">
+                                <select>
+                                    <option value="" disabled selected>Choose a type</option>
                                     <option value="Sensor">Sensor</option>
                                     <option value="Thermometer">Thermometer</option>
                                     <option value="Light">Light</option>
                                 </select>
+                                <br>
                                 <input type='text' name='Pin' class='form-control col s7' placeholder='Pin number'/>
                                 <input type='text' name='Controller' class='form-control col s7' placeholder='Controller (Optional)'/>
-                                <button type='submit' class='btn yellow darken-2' style="float: right; ">Add Sensor</button>
+                                <button type='submit' class='btn yellow darken-2' style="float: right; " onclick="registerSensor()">Add Sensor</button>
                             </form>
                         </div>
                     </li>
@@ -100,7 +102,7 @@
                         <div class="collapsible-body white">
                             <form id='addActuadorForm' class='row' style="margin-top: 10px">
                                 <input type='text' name='pin' class='form-control col s7' placeholder='Pin number'/>
-                                <button type='submit' class='btn yellow darken-2' style="float: right; ">Add Actuador</button>
+                                <button type='submit' class='btn yellow darken-2' style="float: right; " onclick="registerActuador()">Add Actuador</button>
                             </form>
                         </div>
                     </li>
@@ -109,7 +111,11 @@
         </div>
     </section>
 
-
+    <ul id='SensorType' class='dropdown-content'>
+        <li><a href="#!">Sensor</a></li>
+        <li><a href="#!">Thermometer</a></li>
+        <li><a href="#!">Light</a></li>
+    </ul>
 
     <!-- SIGN UP MODAL not available: it is supposed you are registered and logged in to enter this page-->
 
