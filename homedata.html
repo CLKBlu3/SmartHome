@@ -53,13 +53,13 @@
             <div class="col s12 14">
                 <ul class="tabs">
                     <li class="tab col s4">
-                        <a href="#sensors" class="indigo-text text-darken-4">Sensors</a>
+                        <a href="#sensors" class="indigo-text text-darken-4 sensors">Sensors</a>
                     </li>
                     <li class="tab col s4">
-                        <a href="#actuadors" class="indigo-text text-darken-4">Actuadors</a>
+                        <a href="#actuadors" class="indigo-text text-darken-4 actuadors">Actuadors</a>
                     </li>
                     <li class="tab col s4">
-                        <a href="#modElements" class="indigo-text text-darken-4">Add or Remove Elements</a>
+                        <a href="#modElements" class="indigo-text text-darken-4 addorremove">Add or Remove Elements</a>
                     </li>
                 </ul>
             </div>
@@ -77,12 +77,23 @@
                 <p class="flow-text indigo-text text-darken-4">ADD OR DELETE ELEMENTS</p>
                 <ul class="collapsible z-depth-0">
                     <li>
-                        <div id="addSensor" class="collapsible-header grey lighten-4">
+                        <div id="addSensor" class="collapsible-header grey lighten-4" style="justify-content: space-between;">
                             Add Sensor
+                            <div class="preloader-wrapper small active" style="display: none;">
+                                <div class="spinner-layer spinner-green-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="collapsible-body white">
                             <form id='addSensorForm' class='row' style="margin-top: 10px">
-                                <select>
+                                <select name="Type">
                                     <option value="" disabled selected>Choose a type</option>
                                     <option value="Sensor">Sensor</option>
                                     <option value="Thermometer">Thermometer</option>
@@ -91,18 +102,29 @@
                                 <br>
                                 <input type='text' name='Pin' class='form-control col s7' placeholder='Pin number'/>
                                 <input type='text' name='Controller' class='form-control col s7' placeholder='Controller (Optional)'/>
-                                <button type='submit' class='btn yellow darken-2' style="float: right; " onclick="registerSensor()">Add Sensor</button>
+                                <button type='submit' class='btn yellow darken-2' style="float: right; ">Add Sensor</button>
                             </form>
                         </div>
                     </li>
                     <li>
-                        <div id="addActuador" class="collapsible-header grey lighten-4">
+                        <div id="addActuador" class="collapsible-header grey lighten-4" style="justify-content: space-between;">
                             Add Actuador
+                            <div class="preloader-wrapper small active" style="display: none">
+                                <div class="spinner-layer spinner-green-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="collapsible-body white">
                             <form id='addActuadorForm' class='row' style="margin-top: 10px">
                                 <input type='text' name='pin' class='form-control col s7' placeholder='Pin number'/>
-                                <button type='submit' class='btn yellow darken-2' style="float: right; " onclick="registerActuador()">Add Actuador</button>
+                                <button type='submit' class='btn yellow darken-2' style="float: right; ">Add Actuador</button>
                             </form>
                         </div>
                     </li>

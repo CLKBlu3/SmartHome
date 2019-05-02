@@ -7,7 +7,7 @@ $(document).ready(function(){
                alert(error);
             });
             loadHomeInfo(getUrlVar('cid')).then(function(dataHome){
-                console.log(dataHome);
+                declareListeners(dataHome);
             }).catch(function(err){
                 alert(err.message)
             });
@@ -20,12 +20,73 @@ $(document).ready(function(){
 
 });
 
-function registerSensor(){
+function declareListeners(dataHome){
+    $('#addActuadorForm').on('submit', function(e){
+       e.preventDefault();
+       registerActuador(dataHome,e.target);
+    });
 
+    $('#addSensorForm').on('submit', function(e){
+        e.preventDefault();
+        registerSensor(dataHome,e.target);
+    });
 }
 
-function registerActuador() {
-    
+function registerSensor(dataHome,target){
+    //ajax query
+    let loader = $('#addSensor').find('div.preloader-wrapper');
+    loader.show();
+    let formData = new FormData($(target).get(0));
+    auth.currentUser.getIdToken().then(function(idToken){
+        $.ajax({
+            url: urlIPDomainBuilder(dataHome.data.ip,3000)+'/register/sensor'+genAccessTokenUrl(idToken),
+            method: 'POST',
+            context: target,
+            timeout: 5000,
+            data: {
+               type: formData.get('Type'),
+               pin: formData.get('Pin'),
+               controller: formData.get('Controller')
+            },
+            error: function(jqXHR){
+                alert('Cannot connect to the house:'+ jqXHR.statusText + ' ' + jqXHR.responseText);
+                loader.hide();
+            },
+            success: function(data,code,jqXHR){
+                loader.hide();
+                $('ul.tabs a.sensors').get(0).click();
+            }
+        })
+    })
+}
+
+function genAccessTokenUrl(idToken){
+    return '?token='+idToken;
+}
+
+function registerActuador(dataHome,target) {
+    let loader = $('#addActuador').find('div.preloader-wrapper');
+    loader.show();
+    let formData = new FormData($(target).get(0));
+    auth.currentUser.getIdToken().then(function(idToken){
+        $.ajax({
+            url: urlIPDomainBuilder(dataHome.data.ip,3000)+'/register/actuator'+genAccessTokenUrl(idToken),
+            method: 'POST',
+            context: target,
+            timeout: 5000,
+            data: {
+                pin: formData.get('pin')
+            },
+            error: function(jqXHR){
+                alert('Cannot connect to the house:'+ jqXHR.statusText + ' ' + jqXHR.responseText);
+                loader.hide();
+            },
+            success: function(data,code,jqXHR){
+                loader.hide();
+                $('ul.tabs a.actuadors').get(0).click();
+            }
+        })
+    })
 }
 
 function getUrlVar(variable) {
@@ -63,3 +124,7 @@ const loadHomeInfo = function(cid){
             });
         });
 };
+
+function urlIPDomainBuilder(ip,port){
+    return 'https://'+ip+':'+port;
+}
