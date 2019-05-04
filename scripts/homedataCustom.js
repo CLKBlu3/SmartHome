@@ -8,6 +8,12 @@ $(document).ready(function(){
             });
             loadHomeInfo(getUrlVar('cid')).then(function(dataHome){
                 declareListeners(dataHome);
+                loadSensors(dataHome.data.devices.filter(function(item){
+                    return item.type === "sensor";
+                }),dataHome);
+                loadActuators(dataHome.data.devices.filter(function(item){
+                    return item.type === "actuator";
+                }),dataHome);
             }).catch(function(err){
                 alert(err.message)
             });
@@ -16,9 +22,20 @@ $(document).ready(function(){
             alert('user not logged in');
         }
     });
-
-
 });
+
+function loadActuators(actuatorsData,dataHome){
+    console.log(actuatorsData);
+}
+
+function loadSensors(sensorsData,dataHome){
+    sensorsData.forEach(function(item){
+       switch (item.class) {
+           case "Thermometer":
+               generateTemperatureChart(item,dataHome);
+       }
+    });
+}
 
 function declareListeners(dataHome){
     $('#addActuadorForm').on('submit', function(e){
@@ -104,7 +121,6 @@ const checkUserHasAccess = function(user,cid){
         if(user != null){
             let userfunct = functions.httpsCallable('getInfoUser');
             userfunct().then(function(dades){
-                console.log(dades.data);
                 if(!dades.data.Cases.includes(cid))reject('user has not access to this house');
                 resolve();
             }).catch(function(err){
@@ -127,4 +143,23 @@ const loadHomeInfo = function(cid){
 
 function urlIPDomainBuilder(ip,port){
     return 'https://'+ip+':'+port;
+}
+
+function getSensorValue(device,dataHome){ //usado por temperature.js.... para pillar el valor del sensor
+    return new Promise((resolve, reject) => {
+        auth.currentUser.getIdToken().then(function(idToken){
+            $.ajax({
+                url: urlIPDomainBuilder(dataHome.data.ip,3000)+'/'+device.class+'/'+device.pin+'/read'+genAccessTokenUrl(idToken),
+                method: 'GET',
+                timeout: 5000,
+                error: function(jqXHR){
+                    alert('Cannot get device info: '+ jqXHR.statusText + ' ' + jqXHR.responseText);
+                    reject();
+                },
+                success: function(data,code,jqXHR){
+                    resolve(data);
+                }
+            })
+        })
+    });
 }

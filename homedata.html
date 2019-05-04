@@ -8,8 +8,11 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/custom.css">
     <title>Smart Home</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
     <style>
         .section{
@@ -64,14 +67,14 @@
                 </ul>
             </div>
             <div class="col s12" id="sensors">
-                <p class="flow-text indigo-text text-darken-4">SENSORS</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae dui tristique, sodales sem vitae, dapibus ligula. Suspendisse et nunc erat. Proin euismod aliquam leo a luctus. Sed porta non mi id sagittis. Morbi pretium ante ligula, volutpat ornare metus fringilla et. In pulvinar non sem quis auctor. Phasellus in nisi commodo nulla malesuada tempor in sit amet diam. Morbi aliquet laoreet purus. Phasellus sagittis aliquet lectus, eget dignissim erat tincidunt id. Donec ut bibendum dui, ultricies ultricies arcu. Etiam pharetra urna tellus, porttitor accumsan urna auctor ultricies. Proin orci felis, fermentum et accumsan quis, volutpat pretium risus.</p>
+                <div id="sensors-container" class="gauge-container">
+
+                </div>
             </div>
             <div class="col s12" id="actuadors">
-                <p class="flow-text indigo-text text-darken-4">ACTUADORS</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed placerat diam. Sed et tellus in orci fringilla sollicitudin. Integer cursus, dui eu tempus efficitur, est massa ornare odio, eget laoreet arcu orci vitae justo. Vivamus ornare turpis sed aliquet iaculis. Nunc id magna libero. Quisque feugiat gravida libero vel euismod. Quisque at sapien ac nisl cursus tempus a vitae magna. Sed ut augue a diam aliquam placerat. Aliquam commodo consequat vestibulum. In viverra, orci ut faucibus commodo, est arcu mollis nibh, sed interdum odio nisi ac ex. Quisque id feugiat nibh. Integer faucibus porta sem, et ultrices justo ultricies eget. Nulla feugiat elementum ullamcorper. Nullam iaculis libero vel viverra sodales. Fusce sit amet diam nisi. Aenean sit amet dignissim lacus, ac condimentum orci.
+                <div id="actuadors-container" class="gauge-container">
 
-                    Proin vel purus porttitor, egestas leo a, elementum est. Donec ut pellentesque lorem. Aenean malesuada viverra dolor, non ultrices risus. Duis vulputate nulla sodales interdum commodo. Sed congue finibus metus, nec ultrices elit malesuada ac. Suspendisse pulvinar risus vitae hendrerit iaculis. In hac habitasse platea dictumst. Pellentesque feugiat, mi a tristique efficitur, sem turpis sodales tellus, vitae tristique augue nibh et lacus. Phasellus varius, augue vel tristique rhoncus, quam ipsum eleifend ligula, imperdiet porttitor dui nisi porta erat. Phasellus accumsan enim condimentum nisl egestas, eget elementum libero interdum. Sed lorem enim, luctus ac volutpat at, dapibus non dui. Aenean egestas orci eu turpis aliquet pulvinar. Aenean venenatis nisi eu dolor euismod, sit amet aliquet elit porta.</p>
+                </div>
             </div>
             <div class="col s12" id="modElements">
                 <p class="flow-text indigo-text text-darken-4">ADD OR DELETE ELEMENTS</p>
@@ -178,5 +181,6 @@
     <script src="scripts/homedataCustom.js"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/auth.js"></script>
+    <script type="text/javascript" src="scripts/gauges/temperature.js"></script>
 </body>
 </html>
