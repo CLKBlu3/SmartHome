@@ -1,5 +1,5 @@
 
-    function generateTemperatureChart(sensorData, dataHome) {
+function generateTemperatureChart(sensorData, dataHome) {
     $('#sensors-container').append("<div id='sensor-gauge-"+sensorData.pin+"'></div>");
     FusionCharts.ready(function () {
         let chartObj = new FusionCharts({
@@ -54,12 +54,15 @@
                 },
                 "events": {
                     "rendered": function (evt, arg) {
-                        evt.sender.dataUpdate = setInterval(function () {
-                            getSensorValue(sensorData,dataHome).then(function(value){
+                        const funct = function () {
+                            getSensorValue(sensorData, dataHome).then(function (value) {
                                 evt.sender.feedData("&value=" + value);
+                            }).catch(function () {
+                                evt.sender.feedData("&value=-1");
                             });
-
-                        }, 3000);
+                        };
+                        funct();
+                        evt.sender.dataUpdate = setInterval(funct, 10000);
                         evt.sender.updateAnnotation = function (evtObj, argObj) {
                             var code,
                                 chartObj = evtObj.sender,

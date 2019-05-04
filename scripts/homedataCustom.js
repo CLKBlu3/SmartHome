@@ -33,6 +33,14 @@ function loadSensors(sensorsData,dataHome){
        switch (item.class) {
            case "Thermometer":
                generateTemperatureChart(item,dataHome);
+               break;
+           case "Light":
+               generateLightChart(item,dataHome);
+               break;
+
+           case "Sensor":
+               generateSensorChart(item,dataHome);
+               break;
        }
     });
 }
@@ -153,7 +161,7 @@ function getSensorValue(device,dataHome){ //usado por temperature.js.... para pi
                 method: 'GET',
                 timeout: 5000,
                 error: function(jqXHR){
-                    alert('Cannot get device info: '+ jqXHR.statusText + ' ' + jqXHR.responseText);
+                    //alert('Cannot get device info: '+ jqXHR.statusText + ' ' + jqXHR.responseText + ' pin: ' + device.pin);
                     reject();
                 },
                 success: function(data,code,jqXHR){
