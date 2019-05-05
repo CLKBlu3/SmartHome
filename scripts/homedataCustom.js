@@ -25,7 +25,13 @@ $(document).ready(function(){
 });
 
 function loadActuators(actuatorsData,dataHome){
-    console.log(actuatorsData);
+    actuatorsData.forEach(function(item){
+        //set listener db
+        let id = generateActuatorSwitch(item,dataHome);
+        db.collection('cases').doc(dataHome.data.cid).collection('devices').doc(item.pin).onSnapshot(function(doc){
+            $("#"+id + " input").prop("checked", doc.data().state === 1);
+        });
+    })
 }
 
 function loadSensors(sensorsData,dataHome){
@@ -169,5 +175,23 @@ function getSensorValue(device,dataHome){ //usado por temperature.js.... para pi
                 }
             })
         })
+    });
+}
+
+function changeStateActuator(newState,dataHome,device){
+    auth.currentUser.getIdToken().then(function(idToken){
+        let url = urlIPDomainBuilder(dataHome.data.ip,3000)+'/'+device.pin;
+        if(newState){
+            url += '/high'
+        }else url += '/low';
+        url += genAccessTokenUrl(idToken);
+        $.ajax({
+            url: url,
+            method: 'GET',
+            timeout: 5000,
+            error: function(jqXHR){
+                alert('Error ' + jqXHR.responseText);
+            }
+        });
     });
 }
