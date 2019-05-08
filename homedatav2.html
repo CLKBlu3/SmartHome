@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <title>Smart Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+    <style>
+        .section{
+            padding-top: 1vw;
+            padding-bottom: 4vw;
+        }
+        .tabs .indicator{
+            background-color: #1a237e;
+        }
+        .tabs .tab a:focus, .tabs .tab a:focus.active{
+            background: transparent;
+        }
+        div{
+            text-align: justify;
+            text-justify: inter-word;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="z-depth-0 grey lighten-4">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">
+                <a href="index.html"><img src="img/logo.png" style="width: 300px; margin-top: 10px;"></a>
+            </a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="logged-in">
+                    <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+                </li>
+                <li class="logged-in">
+                    <a href="#" class="grey-text" id="logout">Logout</a>
+                </li>
+                </span>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="container section" id="tabSelection">
+        <div class="row">
+            <div class="col s12 14">
+                <ul class="tabs">
+                    <li class="tab col s4">
+                        <a href="#sensors" class="indigo-text text-darken-4 sensors">Sensors</a>
+                    </li>
+                    <li class="tab col s4">
+                        <a href="#actuadors" class="indigo-text text-darken-4 actuadors">Actuadors</a>
+                    </li>
+                    <li class="tab col s4">
+                        <a href="#modElements" class="indigo-text text-darken-4 addorremove">Add or Remove Elements</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12" id="sensors">
+                <div id="sensors-container" class="gauge-container">
+
+                </div>
+            </div>
+            <div class="col s12" id="actuadors">
+                <div id="actuadors-container" class="gauge-container">
+
+                </div>
+            </div>
+            <div class="col s12" id="modElements">
+                <p class="flow-text indigo-text text-darken-4">ADD OR DELETE ELEMENTS</p>
+                <ul class="collapsible z-depth-0">
+                    <li>
+                        <div id="addSensor" class="collapsible-header grey lighten-4" style="justify-content: space-between;">
+                            Add Sensor
+                            <div class="preloader-wrapper small active" style="display: none;">
+                                <div class="spinner-layer spinner-green-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapsible-body white">
+                            <form id='addSensorForm' class='row' style="margin-top: 10px">
+                                <select name="Type">
+                                    <option value="" disabled selected>Choose a type</option>
+                                    <option value="Sensor">Sensor</option>
+                                    <option value="Thermometer">Thermometer</option>
+                                    <option value="Light">Light</option>
+                                </select>
+                                <br>
+                                <input type='text' name='Pin' class='form-control col s7' placeholder='Pin number'/>
+                                <input type='text' name='Controller' class='form-control col s7' placeholder='Controller (Optional)'/>
+                                <button type='submit' class='btn yellow darken-2' style="float: right; ">Add Sensor</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="addActuador" class="collapsible-header grey lighten-4" style="justify-content: space-between;">
+                            Add Actuador
+                            <div class="preloader-wrapper small active" style="display: none">
+                                <div class="spinner-layer spinner-green-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapsible-body white">
+                            <form id='addActuadorForm' class='row' style="margin-top: 10px">
+                                <input type='text' name='pin' class='form-control col s7' placeholder='Pin number'/>
+                                <button type='submit' class='btn yellow darken-2' style="float: right; ">Add Actuador</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <ul id='SensorType' class='dropdown-content'>
+        <li><a href="#!">Sensor</a></li>
+        <li><a href="#!">Thermometer</a></li>
+        <li><a href="#!">Light</a></li>
+    </ul>
+
+    <!-- SIGN UP MODAL not available: it is supposed you are registered and logged in to enter this page-->
+
+    <!--Login modal not avaible: it is supposed you are logged in to enter this page-->
+
+    <!-- ACCOUNT MODAL -->
+    <div id="modal-account" class="modal fade">
+        <div class="modal-content center-align">
+            <h4>Account details</h4><br/>
+            <div class="account-details">
+                <ul class="collapsible z-depth-0 accinfo">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ERRORS MODAL -->
+    <div id="modal-error" class="modal fade">
+        <div class="modal-content center-align">
+            <h4>Oops! An error ocurred somewhere</h4><br/>
+            <div class="error-details">
+                <p style="alignment: center">Please make sure the introduced data is correct.</p>
+                <button type="button" class="btn btn-default" style="float: right" data-dismiss="modal-addHome" onclick="$('#modal-error').hide()">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NO ESTIC SEGUR SI CAL FOTRE LO DE FIREBASE TMB AQUI, TODO: REVISAR-->
+    <!-- Firebase scripts -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-functions.js"></script>
+    <script src="scripts/configureFirebase.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="scripts/homedataCustomv2.js"></script>
+    <script src="scripts/index.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script type="text/javascript" src="scripts/gaugesv2/temperature.js"></script>
+    <script type="text/javascript" src="scripts/gaugesv2/light.js"></script>
+    <script type="text/javascript" src="scripts/gaugesv2/sensor.js"></script>
+    <script type="text/javascript" src="scripts/gauges/actuator.js"></script>
+    <script type="text/javascript" src="scripts/mqtt-client.js"></script>
+</body>
+</html>
