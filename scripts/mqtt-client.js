@@ -1,5 +1,5 @@
 function mqttStartGetInfoSensors(houseid,ip){
-    let client = mqtt.connect('wss://192.168.1.240:8443',{
+    let client = mqtt.connect('wss://'+ip+':8443',{
         rejectUnauthorized: false,
         username: 'client',
         password: houseid
