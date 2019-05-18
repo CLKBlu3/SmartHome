@@ -115,32 +115,29 @@ function registerActuador(dataHome,target) {
             },
             success: function(data,code,jqXHR){
                 loader.hide();
-                $('ul.tabs a.actuadors').get(1).click();
+                $('ul.tabs a.actuadors').get(0).click();
             }
         })
     })
 }
 
 function removeElement(dataHome, target){
+    let formData = new FormData($(target).get(0));
     let loader = $('#remElement').find('div.preloader-wrapper');
     loader.show();
-    let formData = new FormData($(target).get(0));
     auth.currentUser.getIdToken().then(function(idToken){
+        let pin = formData.get('pin');
         $.ajax({
-            url: urlIPDomainBuilder(dataHome.data.ip,3000)+'/' + target + '/delete'+genAccessTokenUrl(idToken),
-            method: 'POST',
-            context: target,
+            url: urlIPDomainBuilder(dataHome.data.ip,3000)+'/' + pin + '/delete'+genAccessTokenUrl(idToken),
+            method: 'GET',
             timeout: 5000,
-            data: {
-                pin: formData.get('pin')
-            },
             error: function(jqXHR){
                 alert('Cannot connect to the house:'+ jqXHR.statusText + ' ' + jqXHR.responseText);
                 loader.hide();
             },
             success: function(data,code,jqXHR){
                 loader.hide();
-                $('ul.tabs a.actuadors').get(0).click();
+                $('ul.tabs a.modElements').get(0).click();
             }
         })
     })
