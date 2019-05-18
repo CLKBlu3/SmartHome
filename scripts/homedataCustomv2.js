@@ -63,6 +63,11 @@ function declareListeners(dataHome){
         e.preventDefault();
         registerSensor(dataHome,e.target);
     });
+
+    $('#remElementForm').on('submit', function (e) {
+        e.preventDefault();
+        removeElement(dataHome, e.target);
+    })
 }
 
 function registerSensor(dataHome,target){
@@ -93,10 +98,6 @@ function registerSensor(dataHome,target){
     })
 }
 
-function genAccessTokenUrl(idToken){
-    return '?token='+idToken;
-}
-
 function registerActuador(dataHome,target) {
     let loader = $('#addActuador').find('div.preloader-wrapper');
     loader.show();
@@ -116,10 +117,39 @@ function registerActuador(dataHome,target) {
             },
             success: function(data,code,jqXHR){
                 loader.hide();
+                $('ul.tabs a.actuadors').get(1).click();
+            }
+        })
+    })
+}
+
+function removeElement(dataHome, target){
+    let loader = $('#remElement').find('div.preloader-wrapper');
+    loader.show();
+    let formData = new FormData($(target).get(0));
+    auth.currentUser.getIdToken().then(function(idToken){
+        $.ajax({
+            url: urlIPDomainBuilder(dataHome.data.ip,3000)+'/' + target + '/delete'+genAccessTokenUrl(idToken),
+            method: 'POST',
+            context: target,
+            timeout: 5000,
+            data: {
+                pin: formData.get('pin')
+            },
+            error: function(jqXHR){
+                alert('Cannot connect to the house:'+ jqXHR.statusText + ' ' + jqXHR.responseText);
+                loader.hide();
+            },
+            success: function(data,code,jqXHR){
+                loader.hide();
                 $('ul.tabs a.actuadors').get(0).click();
             }
         })
     })
+}
+
+function genAccessTokenUrl(idToken){
+    return '?token='+idToken;
 }
 
 function getUrlVar(variable) {

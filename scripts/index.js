@@ -25,10 +25,10 @@ const setupData = (data) =>{
 						`<b>Num Users: </b>${dHome.data.users.length}  <p style=\"text-align:right\" style=\"vertical-align:top\"></p></div>`;
 
 					li += `<div class='collapsible-body white'><b>Users: </b><br><ul id="userslist"></ul>`;
-					li += `<form id='addUserForm' class='row' style="margin-top: 25px">
+					/*li += `<form id='addUserForm' class='row' style="margin-top: 25px">
 							<input type='text' name='uid' class='form-control col s7' placeholder='User email'/><button type='submit' class='btn yellow darken-2' style="float: right; ">Add user</button>
-						</form>
-						</div>`;
+						</form>*/
+					li += `</div>`;
 				}
 				else li += `<div class=\"collapsible-body white\"><b>Num Users: </b>${dHome.data.users.length}</div>`;
 
@@ -72,7 +72,7 @@ $(document).on('click', '#userslist li button', function(){
         deleteUserFunction({houseid: homecid,userid: id}).then(function(){
             //delete row
             itemToDelete.parent().remove();
-        }).catch(function(error){
+        }).catch(function(){
             alert("no es pot eliminar l'usuari");
         });
     }

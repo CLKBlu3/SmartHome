@@ -131,6 +131,28 @@
                             </form>
                         </div>
                     </li>
+                    <li>
+                        <div id="remElement" class="collapsible-header grey lighten-4" style="justify-content: space-between;">
+                            Remove An Element
+                            <div class="preloader-wrapper small active" style="display: none;">
+                                <div class="spinner-layer spinner-green-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapsible-body white">
+                            <form id='remElementForm' class='row' style="margin-top: 10px">
+                                <input type='text' name='pin' class='form-control col s7' placeholder='Pin number'/>
+                                <button type='submit' class='btn red darken-1' style="float: right; ">REMOVE</button>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -169,7 +191,7 @@
         </div>
     </div>
 
-    <!-- NO ESTIC SEGUR SI CAL FOTRE LO DE FIREBASE TMB AQUI, TODO: REVISAR-->
+    <!-- NO ESTIC SEGUR SI CAL FOTRE TOT LO DE FIREBASE TMB AQUI, TODO: REVISAR-->
     <!-- Firebase scripts -->
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
