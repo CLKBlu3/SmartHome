@@ -6,3 +6,7 @@
 g[class*='creditgroup']{
     display: none;
 }
+
+.switch{
+    margin: 50px;
+}

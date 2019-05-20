@@ -8,12 +8,13 @@ $(document).ready(function(){
             });
             loadHomeInfo(getUrlVar('cid')).then(function(dataHome){
                 declareListeners(dataHome);
-                loadSensors(dataHome.data.devices.filter(function(item){
+                /*loadSensors(dataHome.data.devices.filter(function(item){
                     return item.type === "sensor";
-                }),dataHome);
+                }),dataHome);*/
                 loadActuators(dataHome.data.devices.filter(function(item){
                     return item.type === "actuator";
                 }),dataHome);
+                mqttStartGetInfoSensors(getUrlVar('cid'),dataHome.data.ip);
             }).catch(function(err){
                 alert(err.message)
             });
@@ -50,6 +51,7 @@ function loadSensors(sensorsData,dataHome){
        }
     });
 }
+
 
 function declareListeners(dataHome){
     $('#addActuadorForm').on('submit', function(e){
@@ -115,7 +117,7 @@ function registerActuador(dataHome,target) {
             },
             success: function(data,code,jqXHR){
                 loader.hide();
-                $('ul.tabs a.actuadors').get(0).click();
+                $('ul.tabs a.actuadors').get(1).click();
             }
         })
     })
